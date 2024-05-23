@@ -8,7 +8,7 @@ services:
       MYSQL_USER: juliomoquenco
       MYSQL_PASSWORD: 12345dev#
     ports:
-      - "3307:3306"
+      - "3306:3306"
 
   web:
     build: .
@@ -21,7 +21,7 @@ services:
       - db
     environment:
       DATABASE_HOST: db
-      DATABASE_PORT: 3307
+      DATABASE_PORT: 3306
 
       DATABASE_USER: root
       DATABASE_PASSWORD: root
