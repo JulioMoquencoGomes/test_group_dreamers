@@ -2,8 +2,8 @@ class TouristSpotController < ApplicationController
 
     def index
         name = params[:name] || ""
-        featureCollection = ::Service::OpenTripMap::TouristSpot.new(name).search
-        render :json => featureCollection
+        register = ::Service::OpenTripMap::TouristSpot.new(name).register
+        render :json => { "success": register }
     end
 
 end
