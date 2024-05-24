@@ -1,3 +1,4 @@
+require 'pry'
 module Service
     module OpenTripMap
         class TouristSpot
@@ -19,25 +20,27 @@ module Service
             end
 
             def save_register_to_database(response_xid)
-                tourist_spot = TouristSpot.new(
-                    name: response_xid['name'], xid: response_xid['xid'],
-                    city: response_xid['address']['city'], state: response_xid['address']['state'],
-                    country: response_xid['address']['country'], kinds: response_xid['kinds'],
-                    image: response_xid['image'], url: response_xid['url'],
-                    description: response_xid['wikipedia_extracts']['text'],
-                    coordenates: "lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}")
-                tourist_spot.save
+                model = ::TouristSpot.new
+                model[:name] = response_xid['name']
+                model[:xid] = response_xid['xid']
+                model[:city] = response_xid['address']['city'] 
+                model[:state] = response_xid['address']['state']
+                model[:country] = response_xid['address']['country']
+                model[:kinds] = response_xid['kinds']
+                model[:image] = response_xid['image']
+                model[:url] = response_xid['url']
+                model[:description] = response_xid['wikipedia_extracts']['text']
+                model[:coordenates] = "lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}"
+                model.save
             end
 
             def register
                 begin            
-                    features = features(coordenates).each do |feature|
-                        #xid = feature['properties']['xid'].to_s
-                        #response_xid = ::Service::OpenTripMap::Request::Xid.new(xid).get
+                    features(coordenates).each do |feature|
+                        xid = feature['properties']['xid'].to_s
+                        response_xid = ::Service::OpenTripMap::Request::Xid.new(xid).get
+                        save_register_to_database(response_xid)
                     end
-                    xid = features[0]['properties']['xid'].to_s
-                    response_xid = ::Service::OpenTripMap::Request::Xid.new(xid).get
-                    save_register_to_database(response_xid)
                     true
                 rescue
                     false

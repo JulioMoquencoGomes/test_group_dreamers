@@ -48,4 +48,5 @@ group :development do
 end
 
 gem 'httparty'
-gem 'pry', '~> 0.10.4'
+
+gem 'pry', '~> 0.14.2'
