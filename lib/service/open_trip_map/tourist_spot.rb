@@ -29,7 +29,7 @@ module Service
             end
 
             def self.search_and_register(name)
-                return false if name == nil
+                return false if name == nil || name == ""
                 begin            
                     features(coordenates(name)).each do |feature|
                         xid = feature['properties']['xid'].to_s
@@ -43,7 +43,7 @@ module Service
             end
 
             def self.encoding_to_utf8(places_founded)
-                return false if places_founded == nil
+                return if places_founded == nil
                 new_places_founded = []
                 places_founded.each do |place|
                     new_places_founded.push({
