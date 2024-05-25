@@ -2,6 +2,10 @@ module Service
     module OpenTripMap
         class TouristSpot
 
+            def self.translate(tourist_name, target_language = "en")
+                ::Service::RapidApi::RapidApi.translate(tourist_name, target_language)
+            end
+
             def self.coordenates(name)
                 ::Service::OpenTripMap::Request::PlaceName.new(name).get
             end
@@ -14,54 +18,57 @@ module Service
                 nil
             end
 
-            def self.save_register_to_database(response_xid)
-                model = ::TouristSpot.new(name: response_xid['name'],
-                xid: response_xid['xid'],
-                city: response_xid['address']['city'],
-                state: response_xid['address']['state'],
-                country: response_xid['address']['country'],
-                kinds: response_xid['kinds'],
-                image: response_xid['image'],
-                url: response_xid['url'],
-                description: response_xid['wikipedia_extracts']['text'],
-                coordenates: "lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}")
+            def self.save_to_database(place)
+                model = ::TouristSpot.new(place)
                 model.save
             end
 
-            def self.search_and_register(name)
-                return false if name == nil || name == ""
+            def self.search_in_database(reference)
+                ::TouristSpot.where("name LIKE :name or city LIKE :city or state LIKE :state or country LIKE :country or description LIKE :description or kinds LIKE :kinds", 
+                {
+                    :name       => "%#{reference}%",
+                    :city       => "%#{reference}%",
+                    :state      => "%#{reference}%",
+                    :country    => "%#{reference}%",
+                    :description       => "%#{reference}%",
+                    :kinds => "%#{reference}%" 
+                })
+            end
+
+            def self.search_in_api(name, lang)
+                name = translate(name, lang)
+                translated_places = []
+                features(coordenates(name)).each do |feature|
+                    xid = feature['properties']['xid'].to_s
+                    response_xid = ::Service::OpenTripMap::Request::Xid.new(xid).get
+                    translate_place = {         
+                        name:           translate(response_xid['name'], lang),
+                        xid:            translate(response_xid['xid'], lang),
+                        city:           translate(response_xid['address']['city'], lang),
+                        state:          translate(response_xid['address']['state'], lang),
+                        country:        translate(response_xid['address']['country'], lang),
+                        kinds:          translate(response_xid['kinds'], lang),
+                        image:          response_xid['image'],
+                        url:            response_xid['url'],
+                        description:    translate(response_xid['wikipedia_extracts']['text'], lang),
+                        coordenates:    translate("lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}", lang)
+                    }
+                    save_to_database(translate_place)
+                    translated_places.push(translate_place)
+                end
+                translated_places
+            end
+
+            def self.search(name, lang = "en")
+                return false if name.nil? || name.blank?
                 begin            
-                    features(coordenates(name)).each do |feature|
-                        xid = feature['properties']['xid'].to_s
-                        response_xid = ::Service::OpenTripMap::Request::Xid.new(xid).get
-                        save_register_to_database(response_xid)
-                    end
-                    true
+                    places = search_in_database(name)
+                    return places unless places.empty?
+                    search_in_api(name, lang)
                 rescue
-                    false
+                    nil
                 end
             end
-
-            def self.encoding_to_utf8(places_founded)
-                return if places_founded == nil
-                new_places_founded = []
-                places_founded.each do |place|
-                    new_places_founded.push({
-                        "name" => place.name.force_encoding('UTF-8'),
-                        "xid" => place.xid.force_encoding('UTF-8'),
-                        "city" => place.city.force_encoding('UTF-8'),
-                        "state" => place.state.force_encoding('UTF-8'),
-                        "country" => place.country.force_encoding('UTF-8'),
-                        "kinds" => place.kinds.force_encoding('UTF-8'),
-                        "image" => place.image,
-                        "url" => place.url,
-                        "description" => place.description.force_encoding('UTF-8'),
-                        "coordenates" => place.coordenates.force_encoding('UTF-8')
-                    })
-                end
-                new_places_founded
-            end
-
         end
     end
 end

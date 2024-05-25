@@ -6,8 +6,8 @@ module Service
         module Request
             class Bbox < ApiCommunicator
 
-                DEFAULT_MIN_LAT = 0.010
-                DEFAULT_MIN_LNG = 0.010
+                DEFAULT_MIN_LAT = 0.100
+                DEFAULT_MIN_LNG = 0.100
 
                 def initialize(lat, lng, src_geom = "osm", src_attr = "osm", rate = 3, 
                                          formatGeo = "geojson", language = nil)
