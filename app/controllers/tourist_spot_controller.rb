@@ -16,8 +16,10 @@ class TouristSpotController < ApplicationController
             places = TouristSpot.all
             encodeds = ::Service::OpenTripMap::TouristSpot.encoding_to_utf8(places)
             encodeds.each do |encoded|
-                encoded[:translate][:name]          = ::Service::RapidApi::RapidApi.translate(encoded["name"], lang)
-                encoded[:translate][:description]   = ::Service::RapidApi::RapidApi.translate(encoded["descrition"], lang)
+                encoded["translate"] = {         
+                    "name" => ::Service::RapidApi::RapidApi.translate(encoded["name"], lang),
+                    "description" => ::Service::RapidApi::RapidApi.translate(encoded["description"], lang)
+                }
             end
             render :json => { "success": true, "response": encodeds }
         rescue

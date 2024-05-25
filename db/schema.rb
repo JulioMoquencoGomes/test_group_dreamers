@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_24_130942) do
-  create_table "touristspots", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+  create_table "touristspots", charset: "utf8", force: :cascade do |t|
     t.string "name", limit: 150, null: false
     t.string "city", limit: 50, null: false
     t.string "state", limit: 50, null: false

@@ -10,7 +10,7 @@ module Service
                 def headers_params
                     {
                         "Accept-Encoding"   => "application/json",
-                        "X-RapidAPI-Key"    => APIKEY_RAPIDAPI
+                        "X-RapidAPI-Key"    => APIKEY_RAPIDAPI,
                         "X-RapidAPI-Host"   => HOST_RAPIDAPI
                     }
                 end

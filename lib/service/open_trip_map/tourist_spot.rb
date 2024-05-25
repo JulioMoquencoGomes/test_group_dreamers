@@ -15,7 +15,7 @@ module Service
             end
 
             def self.save_register_to_database(response_xid)
-                model = ::TouristSpot.new(name: response_xid['name']
+                model = ::TouristSpot.new(name: response_xid['name'],
                 xid: response_xid['xid'],
                 city: response_xid['address']['city'],
                 state: response_xid['address']['state'],
