@@ -1,4 +1,4 @@
-# Instalation requirements
+# Installation requirements
 
 * **Docker and Docker-Compose**
 
