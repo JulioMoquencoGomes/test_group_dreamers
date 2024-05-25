@@ -29,3 +29,7 @@
 # 4 - Run the test
 
 * docker-compose run web bundle exec rspec
+
+# 5 - Use the api-doc to execute the requests  RestApi
+
+* Open this link on browser http://localhost:3000/api-docs/index.html
