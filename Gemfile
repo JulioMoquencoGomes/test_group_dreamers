@@ -38,6 +38,7 @@ gem "bootsnap", require: false
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'rspec-rails', '~> 5.0.0'
+  gem "rswag"
 end
 
 group :development do
