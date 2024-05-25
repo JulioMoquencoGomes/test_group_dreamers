@@ -9,9 +9,9 @@ module Service
 
                 def headers_params
                     {
-                        "Accept-Encoding" => "application/json",
-                        "X-RapidAPI-Key" => "331b91b258msha5d2fcf935a8120p11050cjsnb73b62c7492e",
-                        "X-RapidAPI-Host" => "google-translator9.p.rapidapi.com"
+                        "Accept-Encoding"   => "application/json",
+                        "X-RapidAPI-Key"    => APIKEY_RAPIDAPI
+                        "X-RapidAPI-Host"   => HOST_RAPIDAPI
                     }
                 end
             end

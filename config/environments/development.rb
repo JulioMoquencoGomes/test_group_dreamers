@@ -68,4 +68,10 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  APIKEY_OPENTRIPMAP = "5ae2e3f221c38a28845f05b6e508c4a294969aa40bf676eebd88c3b7"
+
+  APIKEY_RAPIDAPI = "331b91b258msha5d2fcf935a8120p11050cjsnb73b62c7492e"
+  HOST_RAPIDAPI = "google-translator9.p.rapidapi.com"
+
 end
