@@ -15,17 +15,16 @@ module Service
             end
 
             def self.save_register_to_database(response_xid)
-                model = ::TouristSpot.new
-                model[:name]        = response_xid['name']
-                model[:xid]         = response_xid['xid']
-                model[:city]        = response_xid['address']['city'] 
-                model[:state]       = response_xid['address']['state']
-                model[:country]     = response_xid['address']['country']
-                model[:kinds]       = response_xid['kinds']
-                model[:image]       = response_xid['image']
-                model[:url]         = response_xid['url']
-                model[:description] = response_xid['wikipedia_extracts']['text']
-                model[:coordenates] = "lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}"
+                model = ::TouristSpot.new(name: response_xid['name']
+                xid: response_xid['xid'],
+                city: response_xid['address']['city'],
+                state: response_xid['address']['state'],
+                country: response_xid['address']['country'],
+                kinds: response_xid['kinds'],
+                image: response_xid['image'],
+                url: response_xid['url'],
+                description: response_xid['wikipedia_extracts']['text'],
+                coordenates: "lat: #{response_xid['point']['lat']}, lon: #{response_xid['point']['lon']}")
                 model.save
             end
 
@@ -48,16 +47,16 @@ module Service
                 new_places_founded = []
                 places_founded.each do |place|
                     new_places_founded.push({
-                        "name"          => place[:name].force_encoding('UTF-8'),
-                        "xid"           => place[:xid].force_encoding('UTF-8'),
-                        "city"          => place[:city].force_encoding('UTF-8'),
-                        "state"         => place[:state].force_encoding('UTF-8'),
-                        "country"       => place[:country].force_encoding('UTF-8'),
-                        "kinds"         => place[:kinds].force_encoding('UTF-8'),
-                        "image"         => place[:image],
-                        "url"           => place[:url],
-                        "description"   => place[:description].force_encoding('UTF-8'),
-                        "coordenates"   => place[:coordenates].force_encoding('UTF-8')
+                        "name" => place.name.force_encoding('UTF-8'),
+                        "xid" => place.xid.force_encoding('UTF-8'),
+                        "city" => place.city.force_encoding('UTF-8'),
+                        "state" => place.state.force_encoding('UTF-8'),
+                        "country" => place.country.force_encoding('UTF-8'),
+                        "kinds" => place.kinds.force_encoding('UTF-8'),
+                        "image" => place.image,
+                        "url" => place.url,
+                        "description" => place.description.force_encoding('UTF-8'),
+                        "coordenates" => place.coordenates.force_encoding('UTF-8')
                     })
                 end
                 new_places_founded
