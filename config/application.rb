@@ -31,5 +31,6 @@ module App
 
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join("lib")
+    config.encoding = "utf-8"
   end
 end
