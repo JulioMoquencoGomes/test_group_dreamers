@@ -24,14 +24,7 @@ module Service
             end
 
             def self.search_in_database(reference)
-                ::TouristSpot.where("name LIKE :name or city LIKE :city or state LIKE :state or country LIKE :country or kinds LIKE :kinds", 
-                {
-                    :name           => "%#{reference}%",
-                    :city           => "%#{reference}%",
-                    :state          => "%#{reference}%",
-                    :country        => "%#{reference}%",
-                    :kinds          => "%#{reference}%" 
-                })
+                ::TouristSpot.looking_for_some_reference(reference)
             end
 
             def self.search_in_api(name, lang)
