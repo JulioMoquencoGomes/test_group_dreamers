@@ -32,4 +32,5 @@
 
 # 5 - Use the api-doc to execute the requests  RestApi
 
-* Open this link on browser http://localhost:3000/api-docs/index.html
+* Open this link on browser to visualize the api's doc:
+* http://localhost:3000/api-docs/index.html
