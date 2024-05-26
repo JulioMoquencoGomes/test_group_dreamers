@@ -18,17 +18,17 @@
 
 * **Creating the database on container, please run these commands in new console's tab**
 
-* docker-compose run web rake db:create
-* docker-compose run web rake db:migrate
+* docker compose run web rake db:create
+* docker compose run web rake db:migrate
 
 # 3 - Set up the test database
 
-* docker-compose run web rake db:create RAILS_ENV=test
-* docker-compose run web rake db:migrate RAILS_ENV=test
+* docker compose run web rake db:create RAILS_ENV=test
+* docker compose run web rake db:migrate RAILS_ENV=test
 
 # 4 - Run the test
 
-* docker-compose run web bundle exec rspec
+* docker compose run web bundle exec rspec
 
 # 5 - Use the api-doc to execute the requests  RestApi
 
