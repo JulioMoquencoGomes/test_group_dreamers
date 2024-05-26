@@ -24,14 +24,13 @@ module Service
             end
 
             def self.search_in_database(reference)
-                ::TouristSpot.where("name LIKE :name or city LIKE :city or state LIKE :state or country LIKE :country or description LIKE :description or kinds LIKE :kinds", 
+                ::TouristSpot.where("name LIKE :name or city LIKE :city or state LIKE :state or country LIKE :country or kinds LIKE :kinds", 
                 {
-                    :name       => "%#{reference}%",
-                    :city       => "%#{reference}%",
-                    :state      => "%#{reference}%",
-                    :country    => "%#{reference}%",
-                    :description       => "%#{reference}%",
-                    :kinds => "%#{reference}%" 
+                    :name           => "%#{reference}%",
+                    :city           => "%#{reference}%",
+                    :state          => "%#{reference}%",
+                    :country        => "%#{reference}%",
+                    :kinds          => "%#{reference}%" 
                 })
             end
 
@@ -60,7 +59,7 @@ module Service
             end
 
             def self.search(name, lang = "en")
-                return false if name.nil? || name.blank?
+                return { "message": "Not found" } if name.nil? || name.blank?
                 begin            
                     places = search_in_database(name)
                     return places unless places.empty?
